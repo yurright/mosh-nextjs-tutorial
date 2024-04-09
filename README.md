@@ -1,4 +1,4 @@
-This is the code I practiced to learn Next JS
+This is the code I used to practice Next JS
 
 - youtube: https://www.youtube.com/watch?v=ZVnjOPwW4ZA (1 hour)
 
@@ -203,7 +203,7 @@ const Userspage = async () => {
 
 export default Userspage;
 ```
-disable cache: 빈번하게 바뀌는 경우 사용
+1) disable cache: 빈번하게 바뀌는 경우 사용
 ```
 const res = await fetch(
    "https://jsonplaceholder.typicode.com/users",
@@ -212,6 +212,18 @@ const res = await fetch(
 <p align="center">
 <img width="600" alt="image" src="https://github.com/yurright/mosh-nextjs-tutorial/blob/main/public/nextjsCache.png">
 </p>
+
+
+2) 10초마다 백엔드에서 새로운 데이터 가져올것이다.
+```
+const res = await fetch("https://jsonplaceholder.typicode.com/users", {
+   next: {revalidate: 10},
+ });
+```
+
+
+**cache behavior only implemented in fetch function  (axios 에서는 안 됨)**
+
 
 ## Static Rendering / Dynamic Rendering
 
