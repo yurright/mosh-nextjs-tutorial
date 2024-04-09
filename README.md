@@ -209,7 +209,9 @@ const res = await fetch(
    "https://jsonplaceholder.typicode.com/users",
    {cache: 'no-store'});
 ```
-
+<p align="center">
+<img width="600" alt="image" src="https://github.com/yurright/mosh-nextjs-tutorial/blob/main/public/nextjsCache.png">
+</p>
 
 ## Static Rendering / Dynamic Rendering
 
