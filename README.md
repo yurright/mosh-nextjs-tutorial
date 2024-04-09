@@ -226,9 +226,139 @@ const res = await fetch("https://jsonplaceholder.typicode.com/users", {
 
 
 ## Static Rendering / Dynamic Rendering
+-static render: app build 시 한 번만 렌더링, 그 다음에 필요할 때는 재렌더링 대신 cache에서 가져옴 (rendering at build time)
+-dynamic rendering: rendering at request time
+```
+import React from "react";
+
+
+interface User {
+ id: number;
+ name: string;
+}
+
+
+const Userspage = async () => {
+ const res = await fetch("https://jsonplaceholder.typicode.com/users");
+ const users: User[] = await res.json();
+ return (
+   <>
+     <h1>
+       <p>{new Date().toLocaleTimeString()}</p>
+       <ul>
+         {users.map((user) => (
+           <li key={user.id}>{user.name}</li>
+         ))}
+       </ul>
+     </h1>
+   </>
+ );
+};
+
+
+export default Userspage;
+
+```
+-> timestamp rendered statically(새로고침해도 안 바뀜)
+
+캐시 끄면 동적 인식.
+```
+import React from "react";
+
+
+interface User {
+ id: number;
+ name: string;
+}
+
+
+const Userspage = async () => {
+ const res = await fetch("https://jsonplaceholder.typicode.com/users", {
+   cache: "no-store",
+ });
+ const users: User[] = await res.json();
+ return (
+   <>
+     <h1>
+       <p>{new Date().toLocaleTimeString()}</p>
+       <ul>
+         {users.map((user) => (
+           <li key={user.id}>{user.name}</li>
+         ))}
+       </ul>
+     </h1>
+   </>
+ );
+};
+
+
+export default Userspage;
+
+```
+-> npm run build, npm start 하면 얘는 새로고침 시 타임스탬프 바뀜
+
+rendering: client-side, server-side
+-server-side: static(at build time), dynamic(at request time)
+
+## Styling
+styling next.js applications
+global styles
+
+css modules
+-css module: css file that is scoped to a component/page
+file ProductCard.module.css
+.module.css 파일에서 card-container 처럼 - 쓰면 안 됨!use camel case
+
 
 
 ## Daisy UI
+daisyui.com
+$npm i -D daisyui@latest
+좋다. 테마. 버튼. 
+use theme:
+```
+import type { Config } from "tailwindcss";
+
+
+const config: Config = {
+ content: [
+   "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+   "./components/**/*.{js,ts,jsx,tsx,mdx}",
+   "./app/**/*.{js,ts,jsx,tsx,mdx}",
+ ],
+ theme: {
+   extend: {
+     backgroundImage: {
+       "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+       "gradient-conic":
+         "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+     },
+   },
+ },
+ plugins: [require("daisyui")],
+ daisyui: {
+   themes: ["winter"],
+ },
+};
+export default config;
+```
+
+## 꿀팁
+page 검색법: command+p 한 다음 page 검색해서 해당 페이지로 이동
+npm run dev 해야 변화 즉각 반영
+
+
+## 질문
+-link component는 버튼 눌러 링크 이동인데, 이건 client component 아니어도 되는지?
+-static rendering/dynamic rendering 어떻게 활용할지 잘 모르겠음
+
+## 배운 내용으로 프로젝트 만들어보기
+- json 예시 데이터를 데이지ui로 이쁘게 보여주고,
+- 각 페이지로 데이터 분류해서 받아오기,
+- 각 페이지로 이동할 수 있는 링크 버튼 메인 페이지에 만들기.
+- 타임스탬프와 데이터 캐시 저장 옵션 달리해서 불러와보기
+- 버튼 눌러 보기 완료로 바꿀 수 있는 클라이언트 컴포넌트 만들어보기
+
 
 
 
